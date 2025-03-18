@@ -1,0 +1,348 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+}
+
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 20, 20, 20;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+.disable-transitions * {
+  transition: none !important;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+}
+
+/* ===== КНОПКИ С НЕОБЫЧНЫМИ АНИМАЦИЯМИ ===== */
+
+/* Базовые стили для всех кнопок */
+button,
+.button,
+[type="button"],
+[type="submit"],
+a[href].bg-black,
+a[href].inline-block,
+a[href].inline-flex {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1;
+}
+
+/* 1. Эффект пульсации с градиентом */
+button:not(.no-animation),
+.button:not(.no-animation),
+[type="button"]:not(.no-animation),
+[type="submit"]:not(.no-animation) {
+  background-position: center;
+  transition: background 0.8s;
+}
+
+button:not(.no-animation):hover,
+.button:not(.no-animation):hover,
+[type="button"]:not(.no-animation):hover,
+[type="submit"]:not(.no-animation):hover {
+  animation: button-pulse 1.5s infinite;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+}
+
+@keyframes button-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+.dark button:not(.no-animation):hover,
+.dark .button:not(.no-animation):hover,
+.dark [type="button"]:not(.no-animation):hover,
+.dark [type="submit"]:not(.no-animation):hover {
+  animation: button-pulse-dark 1.5s infinite;
+}
+
+@keyframes button-pulse-dark {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+/* 2. Эффект волны при клике */
+button:not(.no-animation)::after,
+.button:not(.no-animation)::after,
+[type="button"]:not(.no-animation)::after,
+[type="submit"]:not(.no-animation)::after,
+a[href].bg-black::after,
+a[href].inline-block::after,
+a[href].inline-flex::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+}
+
+button:not(.no-animation):active::after,
+.button:not(.no-animation):active::after,
+[type="button"]:not(.no-animation):active::after,
+[type="submit"]:not(.no-animation):active::after,
+a[href].bg-black:active::after,
+a[href].inline-block:active::after,
+a[href].inline-flex:active::after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+/* 3. Эффект градиентной границы */
+.bg-black:not(.no-animation),
+a[href].inline-block:not(.no-animation),
+a[href].inline-flex:not(.no-animation) {
+  background-size: 200% 200%;
+  background-image: linear-gradient(45deg, #000 30%, #333 50%, #000 70%);
+  animation: gradient-shift 5s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.dark .bg-black:not(.no-animation),
+.dark a[href].inline-block:not(.no-animation),
+.dark a[href].inline-flex:not(.no-animation) {
+  background-image: linear-gradient(45deg, #333 30%, #555 50%, #333 70%);
+}
+
+/* 4. Эффект свечения при наведении */
+button:not(.no-animation):hover::before,
+.button:not(.no-animation):hover::before,
+[type="button"]:not(.no-animation):hover::before,
+[type="submit"]:not(.no-animation):hover::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  background-size: 400%;
+  border-radius: 0.5rem;
+  filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s;
+  animation: glowing 20s linear infinite;
+}
+
+button:not(.no-animation):hover::before,
+.button:not(.no-animation):hover::before,
+[type="button"]:not(.no-animation):hover::before,
+[type="submit"]:not(.no-animation):hover::before {
+  opacity: 0.3;
+}
+
+@keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+/* 5. Эффект 3D нажатия */
+button:not(.no-animation):active,
+.button:not(.no-animation):active,
+[type="button"]:not(.no-animation):active,
+[type="submit"]:not(.no-animation):active,
+a[href].bg-black:active,
+a[href].inline-block:active,
+a[href].inline-flex:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.3);
+}
+
+/* 6. Эффект магнитного притяжения для иконок в кнопках */
+button:not(.no-animation) svg,
+.button:not(.no-animation) svg,
+[type="button"]:not(.no-animation) svg,
+[type="submit"]:not(.no-animation) svg,
+a[href].bg-black svg,
+a[href].inline-block svg,
+a[href].inline-flex svg {
+  transition: transform 0.3s ease;
+}
+
+button:not(.no-animation):hover svg,
+.button:not(.no-animation):hover svg,
+[type="button"]:not(.no-animation):hover svg,
+[type="submit"]:not(.no-animation):hover svg,
+a[href].bg-black:hover svg,
+a[href].inline-block:hover svg,
+a[href].inline-flex:hover svg {
+  transform: scale(1.2);
+}
+
+/* 7. Специальные эффекты для кнопок в корзине */
+.p-1.border:not(.no-animation) {
+  transition: all 0.3s ease;
+}
+
+.p-1.border:not(.no-animation):hover {
+  transform: rotate(360deg);
+  border-radius: 50%;
+  background-color: #000;
+  color: white;
+}
+
+.dark .p-1.border:not(.no-animation):hover {
+  background-color: #fff;
+  color: black;
+}
+
+/* 8. Эффект для кнопки "В корзину" */
+button.w-full:not(.no-animation) {
+  transition: all 0.5s ease;
+}
+
+button.w-full:not(.no-animation):hover {
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #000, #333, #000);
+  background-size: 200% auto;
+  animation: gradient 2s linear infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.dark button.w-full:not(.no-animation):hover {
+  background: linear-gradient(90deg, #333, #555, #333);
+}
+
+/* 9. Эффект для кнопки удаления */
+button:has(.h-5.w-5):not(.no-animation) {
+  transition: all 0.3s ease;
+}
+
+button:has(.h-5.w-5):not(.no-animation):hover {
+  transform: rotate(90deg);
+  color: #ff3b30;
+}
+
+/* Плавные переходы для всех элементов */
+* {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Стили для кнопки входа в админ панель */
+.admin-login-button {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+@media (hover: hover) {
+  .admin-login-button:hover {
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+  }
+}
+
